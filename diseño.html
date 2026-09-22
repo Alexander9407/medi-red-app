@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medi-Red — Cómo funciona</title>
+    <link rel="icon" href="./media/preview-1.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-deep: #0e1713;
+        --bg-deep-2: #101c16;
+        --bg-light: #f6f8f6;
+        --bg-light-2: #eef2ef;
+        --green-600: #1f9d55;
+        --green-400: #4ecb90;
+        --red-600: #e0323f;
+        --red-500: #ef4a56;
+        --ink: #142019;
+        --paper: #eef4f1;
+        --muted-on-dark: #9fb6ac;
+        --muted-on-light: #516158;
+        --border-dark: rgba(255, 255, 255, 0.12);
+        --border-light: rgba(20, 32, 25, 0.12);
+        --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+        --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg-light);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.6;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        margin: 0 0 0.6em 0;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--green-400);
+        outline-offset: 3px;
+      }
+      .section-inner {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Nav (idéntico al de landing.html) */
+      .nav {
+        background: var(--bg-light);
+        border-bottom: 1px solid var(--border-light);
+        width: 100%;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+      }
+      .nav-inner {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0.3rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .brand-mark {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        display: block;
+      }
+      .brand-mark-link {
+        display: block;
+        line-height: 0;
+        flex-shrink: 0;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+      }
+      .nav-link {
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--muted-on-light);
+        text-decoration: none;
+      }
+      .nav-link:hover {
+        color: var(--green-600);
+        text-decoration: underline;
+      }
+      .nav-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border: 1px solid var(--border-light);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        padding: 0;
+      }
+      .nav-toggle svg {
+        width: 20px;
+        height: 20px;
+      }
+      @media (max-width: 640px) {
+        .nav-actions {
+          display: none;
+        }
+        .nav-toggle {
+          display: inline-flex;
+        }
+      }
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: var(--bg-light);
+        display: flex;
+        flex-direction: column;
+      }
+      .mobile-menu[hidden] {
+        display: none;
+      }
+      .mobile-menu-header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 1.1rem 1.5rem;
+      }
+      .mobile-menu-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--border-light);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        padding: 0;
+      }
+      .mobile-menu-close svg {
+        width: 20px;
+        height: 20px;
+      }
+      .mobile-menu-links {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.75rem;
+        padding: 0 1.5rem 3rem;
+      }
+      .mobile-menu-links .nav-link {
+        font-size: 1.2rem;
+      }
+      .mobile-menu-links .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+      .logo {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: var(--green-600);
+        letter-spacing: 0.01em;
+      }
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+      .brand-tagline {
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.7rem;
+        color: var(--muted-on-light);
+        letter-spacing: 0.02em;
+      }
+
+      /* Botones (idénticos a landing.html) */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.85rem 1.7rem;
+        border-radius: 999px;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition:
+          background-color 0.15s ease,
+          border-color 0.15s ease,
+          color 0.15s ease;
+      }
+      .btn-primary {
+        background: var(--red-600);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--red-500);
+      }
+      .btn-sm {
+        padding: 0.55rem 1.3rem;
+        font-size: 0.92rem;
+      }
+
+      /* Intro (equivalente simplificado del hero) */
+      .intro {
+        margin-top: 60px;
+        background: var(--bg-deep);
+        padding: clamp(3rem, 7vw, 4.5rem) 1.5rem clamp(2.5rem, 6vw, 3.5rem);
+        text-align: center;
+      }
+      .intro-inner {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      .demo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        border: 1px solid rgba(78, 203, 144, 0.4);
+        background: rgba(78, 203, 144, 0.08);
+        color: var(--green-400);
+        padding: 0.45rem 0.95rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 1.4rem;
+      }
+      .demo-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green-400);
+        flex-shrink: 0;
+      }
+      .intro h1 {
+        color: var(--paper);
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        line-height: 1.25;
+      }
+      .intro-sub {
+        color: var(--muted-on-dark);
+        font-size: 1.03rem;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      /* Pasos (mismo patrón que .how en landing.html) */
+      .how {
+        background: var(--bg-light-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .how h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .how .lead {
+        color: var(--muted-on-light);
+        max-width: 560px;
+        margin-top: 0.6rem;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        background: rgba(20, 32, 25, 0.08);
+        padding: 0.15rem 0.4rem;
+        border-radius: 5px;
+        font-size: 0.9em;
+      }
+      .example-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(31, 157, 85, 0.1);
+        color: var(--green-600);
+        border: 1px solid rgba(31, 157, 85, 0.28);
+        padding: 0.35rem 0.8rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-top: 1.75rem;
+      }
+      .example-bubble {
+        display: block;
+        max-width: 460px;
+        background: var(--green-600);
+        color: #fff;
+        padding: 1rem 1.25rem;
+        border-radius: 16px 16px 4px 16px;
+        font-size: 1.05rem;
+        margin: 1rem 0 1.75rem;
+      }
+      .example-compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      @media (max-width: 640px) {
+        .example-compare {
+          grid-template-columns: 1fr;
+        }
+      }
+      .example-col h3 {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+      }
+      .example-col p {
+        color: var(--muted-on-light);
+        font-size: 0.95rem;
+      }
+
+      /* Reglas del agente */
+      .rules {
+        background: var(--bg-light);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .rules h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .rules .lead {
+        color: var(--muted-on-light);
+        max-width: 620px;
+        margin-top: 0.6rem;
+      }
+      .prompt-block {
+        margin: 1.5rem 0 2rem;
+        background: var(--ink);
+        color: var(--paper);
+        border-radius: 12px;
+        padding: 1.25rem 1.4rem;
+        overflow-x: auto;
+        font-size: 0.85rem;
+        line-height: 1.7;
+      }
+      .prompt-block code {
+        background: none;
+        padding: 0;
+        color: inherit;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .rule-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .rule-row h3 {
+        font-size: 1.02rem;
+        margin-bottom: 0.35rem;
+      }
+      .rule-row p {
+        color: var(--muted-on-light);
+        font-size: 0.95rem;
+      }
+
+      /* Cómo se elige el hospital */
+      .pick {
+        background: var(--bg-deep);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .pick h2 {
+        color: var(--paper);
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .pick .lead {
+        color: var(--muted-on-dark);
+        max-width: 620px;
+        margin-top: 0.6rem;
+      }
+      .pick-sub {
+        color: var(--paper);
+        font-size: 1.05rem;
+        margin-top: 2rem;
+      }
+      .pick-text {
+        color: var(--muted-on-dark);
+        font-size: 0.97rem;
+        max-width: 640px;
+      }
+      .pick-text strong {
+        color: var(--paper);
+      }
+      .pick .example-tag {
+        color: var(--green-400);
+        background: rgba(78, 203, 144, 0.12);
+        border-color: rgba(78, 203, 144, 0.35);
+      }
+      .worked-example {
+        margin-top: 1.75rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border-dark);
+        border-radius: 16px;
+        padding: 1.5rem 1.75rem;
+      }
+      .worked-lede {
+        color: var(--paper);
+        font-size: 1rem;
+        margin: 0.9rem 0 0;
+      }
+      .hospital-compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+      @media (max-width: 640px) {
+        .hospital-compare {
+          grid-template-columns: 1fr;
+        }
+      }
+      .hospital-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-dark);
+        border-radius: 12px;
+        padding: 1.1rem 1.25rem;
+      }
+      .hospital-card h3 {
+        color: var(--paper);
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .hospital-card p {
+        color: var(--muted-on-dark);
+        font-size: 0.93rem;
+        margin-bottom: 0.3rem;
+      }
+      .winner-tag {
+        color: var(--green-400) !important;
+        font-weight: 500;
+        margin-top: 0.6rem !important;
+      }
+      .muted-tag {
+        font-size: 0.85rem !important;
+        margin-top: 0.6rem !important;
+      }
+      .worked-conclusion {
+        margin-top: 1.25rem;
+        color: var(--muted-on-dark);
+        font-size: 0.95rem;
+      }
+      .worked-conclusion em {
+        color: var(--paper);
+        font-style: normal;
+      }
+
+      /* Lo que no depende de la IA */
+      .local {
+        background: var(--bg-light-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .local h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .local .lead {
+        color: var(--muted-on-light);
+        max-width: 620px;
+        margin-top: 0.6rem;
+      }
+      .local-sub {
+        color: var(--ink);
+        font-size: 1.05rem;
+        margin-top: 2rem;
+      }
+      .local-text {
+        color: var(--muted-on-light);
+        font-size: 0.97rem;
+        max-width: 640px;
+        margin-top: 0.9rem;
+      }
+      .cost-mini {
+        border-top: 1px dashed var(--border-dark);
+      }
+      .cost-mini-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        padding: 0.55rem 0;
+        border-bottom: 1px dashed var(--border-dark);
+        color: var(--muted-on-dark);
+        font-size: 0.93rem;
+      }
+      .cost-mini-row .num {
+        font-weight: 600;
+        color: var(--paper);
+        flex-shrink: 0;
+      }
+      .cost-mini-row.total {
+        border-bottom: none;
+      }
+      .cost-mini-row.total .num {
+        color: var(--green-400);
+        font-size: 1.05rem;
+      }
+
+      /* Sección de datos de ejemplo (mismo patrón que .why en landing.html) */
+      .why {
+        background: var(--bg-deep-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .why h2 {
+        color: var(--paper);
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .why .lead {
+        color: var(--muted-on-dark);
+        max-width: 560px;
+        margin-top: 0.6rem;
+      }
+      .benefit-list {
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--border-dark);
+      }
+      .benefit-row {
+        display: flex;
+        gap: 1.1rem;
+        align-items: flex-start;
+        padding: 1.4rem 0;
+        border-bottom: 1px solid var(--border-dark);
+      }
+      .benefit-row svg {
+        flex: none;
+        width: 26px;
+        height: 26px;
+        color: var(--green-400);
+        margin-top: 0.15rem;
+      }
+      .benefit-row h3 {
+        color: var(--paper);
+        font-size: 1.02rem;
+        margin-bottom: 0.3rem;
+      }
+      .benefit-row p {
+        color: var(--muted-on-dark);
+        font-size: 0.96rem;
+      }
+
+      /* CTA final (mismo patrón que .cta en landing.html) */
+      .cta {
+        background: var(--bg-light);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+        text-align: center;
+        margin-bottom: 80px;
+      }
+      .cta h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .cta .btn {
+        margin-top: 1.2rem;
+      }
+      .disclaimer {
+        max-width: 520px;
+        margin: 1.5rem auto 0;
+        color: var(--muted-on-light);
+        font-size: 0.88rem;
+      }
+
+      /* Footer */
+      .site-footer {
+        background: var(--bg-deep);
+      }
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+      }
+      .footer-copyright {
+        max-width: 1040px;
+        margin: 0 auto;
+        margin-top: 100px;
+        padding: 1rem 1.5rem 1.5rem;
+        border-top: 1px solid var(--border-dark);
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--muted-on-dark);
+      }
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: none;
+      }
+      .footer-brand-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .footer-brand svg {
+        width: 70px;
+        height: 70px;
+        padding: 0;
+      }
+      p.credit-label {
+        margin: 0 0 0.35rem;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--green-400);
+      }
+      .team-name {
+        display: block;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.6em;
+        text-transform: uppercase;
+        color: #806ee9;
+      }
+      .footer-challenge {
+        flex: 1;
+        min-width: 240px;
+        border-left: 1px solid var(--border-dark);
+        padding-left: 2rem;
+      }
+      @media (max-width: 640px) {
+        .footer-challenge {
+          border-left: none;
+          padding-left: 0;
+          border-top: 1px solid var(--border-dark);
+          padding-top: 1.5rem;
+          width: 100%;
+        }
+        .footer-brand svg {
+          width: 60px;
+          height: 60px;
+        }
+      }
+      .challenge-tag {
+        margin: 0 0 0.35rem;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--green-400);
+      }
+      .challenge-title {
+        margin: 0 0 0.5rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--paper);
+      }
+      .challenge-desc {
+        margin: 0;
+        max-width: 560px;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--muted-on-dark);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-inner">
+        <div class="brand">
+          <a class="brand-mark-link" href="landing.html" aria-label="Ir al inicio">
+            <img class="brand-mark" src="./media/preview-1.svg" alt="" width="56" height="56" />
+          </a>
+          <div class="brand-text">
+            <span class="logo">MEDI-RED</span>
+            <span class="brand-tagline">Agente virtual</span>
+          </div>
+        </div>
+        <div class="nav-actions">
+          <a class="nav-link" href="diseño.html">¿Cómo funciono?</a>
+          <a class="btn btn-primary btn-sm" href="index.html">Ir al asistente</a>
+        </div>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <div class="mobile-menu-header">
+        <button type="button" class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+      <div class="mobile-menu-links">
+        <a class="nav-link" href="diseño.html">¿Cómo funciono?</a>
+        <a class="btn btn-primary" href="index.html">Ir al asistente</a>
+      </div>
+    </div>
+
+    <section class="intro">
+      <div class="intro-inner">
+        <span class="demo-badge"><span class="demo-dot"></span>Proyecto de demostración</span>
+        <h1>Cómo funciona el asistente Medi-Red</h1>
+        <p class="intro-sub">Un vistazo general a la lógica que conecta lo que escribes en el chat con una especialidad, un copago estimado y un hospital recomendado.</p>
+      </div>
+    </section>
+
+    <section class="how">
+      <div class="section-inner">
+        <h2>Por qué el asistente usa un modelo de razonamiento</h2>
+        <p class="lead">Un síntoma real casi nunca llega en una sola palabra clave. Por eso, en vez de depender solo de un buscador de términos, el paso de clasificación usa el modelo de Groq <code>openai/gpt-oss-20b</code> — capaz de leer la frase completa antes de decidir una especialidad.</p>
+
+        <span class="example-tag">Ejemplo real</span>
+        <div class="example-bubble">Adormecimiento en los dedos de la mano izquierda</div>
+
+        <div class="example-compare">
+          <div class="example-col">
+            <h3>Solo con palabras clave</h3>
+            <p>Un motor que busca términos literales como "mano" o "dedos" se queda en la superficie, sin conectar la frase con causas menos obvias.</p>
+          </div>
+          <div class="example-col">
+            <h3>Con openai/gpt-oss-20b</h3>
+            <p>El modelo interpreta dónde ocurre el síntoma y qué tipo de sensación es, y puede considerar razonablemente más de una especialidad — por ejemplo neurología — antes de sugerir la más adecuada.</p>
+          </div>
+        </div>
+
+        <p class="lead" style="margin-top: 1.75rem">Por eso este modelo es el motor principal de clasificación. El buscador por palabras clave queda como respaldo para cuando la IA no responde, no como primera opción.</p>
+      </div>
+    </section>
+
+    <section class="rules">
+      <div class="section-inner">
+        <h2>Las reglas que sigue el clasificador</h2>
+        <p class="lead">Antes de leer cualquier síntoma, el modelo recibe un mensaje de sistema — instrucciones fijas que definen qué puede y qué no puede responder. Así vive, tal cual, dentro de <code>app.js</code>:</p>
+
+        <pre class="prompt-block"><code>Eres un clasificador administrativo de un hospital. Dado un síntoma en español,
+devuelve SOLO un JSON con esta forma exacta, sin texto adicional:
+{"especialidad_id": "uno_de_la_lista", "confianza": "alta|media|baja", "mensaje_paciente": "1-2 frases empáticas explicando por qué se sugiere esa especialidad, sin dar diagnóstico ni tratamiento ni nombres de medicamentos"}
+
+Lista válida de especialidad_id (usa exactamente uno de estos, tal cual está escrito):
+${IDS_VALIDOS.join(", ")}
+
+Si el síntoma no encaja claramente en ninguna, usa "medicina_general".
+Nunca sugieras diagnósticos, tratamientos ni medicamentos. Nunca inventes un especialidad_id fuera de la lista.</code></pre>
+
+        <div class="rule-list">
+          <div class="rule-row">
+            <h3>Responde solo en JSON, sin texto extra</h3>
+            <p>Así la aplicación puede leer la respuesta de forma automática, sin tener que interpretar un párrafo libre.</p>
+          </div>
+          <div class="rule-row">
+            <h3>Solo puede elegir de una lista cerrada</h3>
+            <p><code>especialidad_id</code> tiene que ser exactamente uno de los valores de <code>IDS_VALIDOS</code> — el modelo nunca puede inventar una especialidad que la app no reconozca.</p>
+          </div>
+          <div class="rule-row">
+            <h3>Si no está claro, usa "medicina_general"</h3>
+            <p>Es la salida segura cuando el síntoma es ambiguo, en vez de forzar una especialidad incorrecta con tal de dar una respuesta.</p>
+          </div>
+          <div class="rule-row">
+            <h3>Incluye qué tan segura está la clasificación</h3>
+            <p><code>confianza</code> (alta, media o baja) le da a la app una señal de qué tan firme fue la decisión del modelo.</p>
+          </div>
+          <div class="rule-row">
+            <h3>Nunca diagnostica ni receta</h3>
+            <p>El <code>mensaje_paciente</code> debe ser empático y breve, pero tiene explícitamente prohibido incluir un diagnóstico, un tratamiento o el nombre de un medicamento. El modelo solo orienta hacia una especialidad — nunca actúa como médico.</p>
+          </div>
+          <div class="rule-row">
+            <h3>La app también verifica la respuesta</h3>
+            <p>Aunque se le pida a la IA que nunca invente un <code>especialidad_id</code> fuera de la lista, el código lo comprueba de todas formas: si llega algo que no está en <code>IDS_VALIDOS</code>, se reemplaza por <code>medicina_general</code> antes de mostrarlo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pick">
+      <div class="section-inner">
+        <h2>Cómo se elige el hospital recomendado</h2>
+        <p class="lead">No es simplemente "el hospital más cercano". Primero se filtra por quién realmente atiende esa especialidad, y después se compara cercanía contra costo entre los que quedan.</p>
+
+        <h3 class="pick-sub">Primero: ¿quién atiende esa especialidad?</h3>
+        <p class="pick-text">No todos los hospitales de la red tienen las mismas especialidades. Los pueblos más pequeños — <strong>Olá</strong>, <strong>La Pintada</strong>, <strong>Natá</strong> — solo cuentan con medicina general, traumatología y pediatría. Las especialidades más complejas, como cardiología o neurología, están concentradas en los dos centros más grandes: <strong>Penonomé</strong> y <strong>Aguadulce</strong>.</p>
+
+        <h3 class="pick-sub">Después: cercanía y costo, combinados</h3>
+        <p class="pick-text">Entre los hospitales que sí atienden la especialidad, el algoritmo normaliza la distancia (km) y el costo total ($) a una misma escala y los combina con un peso fijo: <strong>70% distancia, 30% costo</strong>. Gana el mejor balance — no necesariamente el más barato ni el más cercano por separado.</p>
+
+        <div class="worked-example">
+          <span class="example-tag">Ejemplo con datos reales de la demo</span>
+          <p class="worked-lede">Alguien en <strong>Olá</strong> con un síntoma de cardiología solo tiene dos opciones en la red: Penonomé y Aguadulce.</p>
+          <div class="hospital-compare">
+            <div class="hospital-card">
+              <h3>Medi-red Aguadulce</h3>
+              <p>15 km desde Olá</p>
+              <p>$22.20 estimado</p>
+              <p class="winner-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; vertical-align: -2px; margin-right: 4px"><path d="M5 13l4 4L19 7" /></svg>Recomendado — el más cercano
+              </p>
+            </div>
+            <div class="hospital-card">
+              <h3>Medi-red Penonomé</h3>
+              <p>20 km desde Olá</p>
+              <p>$21.50 estimado</p>
+              <p class="muted-tag">El más económico, pero queda más lejos</p>
+            </div>
+          </div>
+          <p class="worked-conclusion">Aguadulce es 70 centavos más caro, pero 5 km más cerca — y como la distancia pesa más en la fórmula (70% contra 30%), gana Aguadulce. El mensaje que verías en el chat lo explica así: <em>"Es el hospital más cercano a Olá con esta especialidad, con un costo razonable frente a las demás opciones de tu red."</em></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="local">
+      <div class="section-inner">
+        <h2>Lo que no depende de la IA</h2>
+        <p class="lead">No todo en Medi-Red pasa por un modelo de lenguaje. Las distancias entre pueblos y el buscador de respaldo son lógica local, escrita directamente en el código — más simple, pero también más fácil de revisar.</p>
+
+        <h3 class="local-sub">Las distancias son estimados, no datos de mapas reales</h3>
+        <p class="local-text">La matriz de distancias es una lista compacta de kilómetros aproximados por carretera entre las cabeceras de Coclé, escrita a mano para esta demo. El código la expande en una matriz completa entre todos los pueblos:</p>
+
+        <pre class="prompt-block"><code>const DISTANCIAS_BASE = [
+  ["Penonomé","Antón",12],
+  ["Penonomé","Natá",14],
+  ["Natá","Olá",10],
+  ["Olá","La Pintada",10],
+  ["La Pintada","Aguadulce",10],
+  // ...
+];</code></pre>
+
+        <p class="local-text">En producción, esto se reemplazaría por una API real de distancias (como Google Distance Matrix u OSRM) usando coordenadas — aquí son solo estimados razonables para que la demo funcione sin depender de un servicio externo.</p>
+
+        <h3 class="local-sub">El buscador de respaldo, en detalle</h3>
+        <p class="local-text">Cuando la IA no responde, <code>detectarEspecialidad()</code> revisa el mensaje en busca de palabras clave de cada especialidad. Si el texto coincide con más de una a la vez, no gana la primera que aparece — gana la más larga, porque una coincidencia más específica suele ser más confiable que una genérica.</p>
+
+        <span class="example-tag">Ejemplo</span>
+        <div class="example-bubble">Tengo tos y dolor de oído</div>
+        <p class="local-text">Ese mensaje coincide con "tos" (medicina general, 3 letras) y con "dolor de oído" (otorrinolaringología, 13 letras). Gana otorrinolaringología, por ser la coincidencia más larga.</p>
+      </div>
+    </section>
+
+    <section class="pick">
+      <div class="section-inner">
+        <h2>De qué está hecho el total que ves en el chat</h2>
+        <p class="lead">El monto que aparece al final de cada recomendación no es un número inventado — es la suma de dos partes definidas en el código: un copago fijo y un coaseguro que varía según el hospital.</p>
+
+        <h3 class="pick-sub">Copago: fijo, según la especialidad</h3>
+        <p class="pick-text">Cada especialidad tiene un copago fijo definido por el plan, igual sin importar a qué hospital de la red vayas. Medicina general, por ejemplo, siempre cuesta $5 de copago; neurología, $18.</p>
+
+        <h3 class="pick-sub">Coaseguro: variable, según el hospital</h3>
+        <p class="pick-text">Cada hospital tiene su propia tarifa de lista y su propio porcentaje de coaseguro — la parte que el plan no cubre. El coaseguro se calcula como <code>tarifa × porcentaje</code>, y ese porcentaje cambia de un hospital a otro dentro de la misma red.</p>
+
+        <div class="worked-example">
+          <span class="example-tag">Ejemplo con datos reales de la demo</span>
+          <p class="worked-lede">Medicina general cuesta lo mismo en copago en toda la red — pero el total final cambia según el hospital que elijas:</p>
+          <div class="cost-mini">
+            <div class="cost-mini-row"><span>Copago (medicina general)</span><span class="num">$5.00</span></div>
+            <div class="cost-mini-row"><span>Coaseguro en Medi-red Penonomé (10% de $65)</span><span class="num">$6.50</span></div>
+            <div class="cost-mini-row total"><span>Total en Penonomé</span><span class="num">$11.50</span></div>
+          </div>
+          <div class="cost-mini" style="margin-top: 1.25rem">
+            <div class="cost-mini-row"><span>Copago (medicina general)</span><span class="num">$5.00</span></div>
+            <div class="cost-mini-row"><span>Coaseguro en Medi-red Olá (20% de $45)</span><span class="num">$9.00</span></div>
+            <div class="cost-mini-row total"><span>Total en Olá</span><span class="num">$14.00</span></div>
+          </div>
+          <p class="worked-conclusion">Mismo síntoma, mismo copago — pero $2.50 de diferencia solo por el hospital elegido. Por eso el costo sí pesa en la recomendación final, además de la distancia.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="why">
+      <div class="section-inner">
+        <h2>Datos de ejemplo, no reales</h2>
+        <p class="lead">Esta es una demo pensada para mostrar cómo podría funcionar un asistente así — no es un servicio médico ni de seguros real.</p>
+        <div class="benefit-list">
+          <div class="benefit-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
+              <circle cx="12" cy="10" r="2.4" />
+            </svg>
+            <div>
+              <h3>Las ubicaciones son de Coclé, Panamá</h3>
+              <p>Los lugares que ves en el formulario inicial — Penonomé, Antón, Natá, Olá, La Pintada y Aguadulce — son pueblos de la provincia de Coclé, de donde son los autores de este proyecto: Los Legendarios PTY.</p>
+            </div>
+          </div>
+          <div class="benefit-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3h6M10 3v5.5L5.5 17a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 8.5V3" />
+              <path d="M7.5 14h9" />
+            </svg>
+            <div>
+              <h3>Hospitales, copagos y planes son ilustrativos</h3>
+              <p>Los nombres de hospitales, los montos y los planes que aparecen en el chat son datos de ejemplo con fines de demostración, no información real de ninguna aseguradora.</p>
+            </div>
+          </div>
+          <div class="benefit-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M12 8v5M12 16h.01" />
+            </svg>
+            <div>
+              <h3>La IA puede equivocarse</h3>
+              <p>Como cualquier modelo de lenguaje, puede clasificar mal un síntoma poco claro. Por eso siempre puedes ver alternativas, y el estimado nunca reemplaza una consulta real.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="section-inner">
+        <h2>¿Quieres probarlo?</h2>
+        <a class="btn btn-primary" href="index.html">Hablar con el asistente</a>
+        <p class="disclaimer">Medi-Red es un proyecto de demostración hecho por Los Legendarios PTY. La información que genera es un estimado ilustrativo y no es una evaluación médica real, ni la verificación final de una aseguradora.</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="credit-label">Desarrollado por:</p>
+          <div class="footer-brand-row">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="23 23 54 56" aria-hidden="true">
+              <defs>
+                <linearGradient id="footerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00E676" />
+                  <stop offset="100%" stop-color="#705AE8" />
+                </linearGradient>
+              </defs>
+              <path d="M 25 77 L 25 25 L 75 25 L 75 75 L 45 75 L 45 40" fill="none" stroke="url(#footerGradient)" stroke-width="4" stroke-linejoin="miter" stroke-linecap="butt" />
+            </svg>
+            <p class="footer-credit">
+              <span class="team-name">Los <br />Legendarios <br />PTY</span>
+            </p>
+          </div>
+        </div>
+        <div class="footer-challenge">
+          <p class="challenge-tag">Sistema aplicado al "Reto 3"</p>
+          <p class="challenge-title">Estimador Agéntico de Copago y Cobertura para el Paciente</p>
+          <p class="challenge-desc">Un agente conversacional que ayude al paciente a entender su beneficio antes de atenderse. El paciente ingresa su síntoma, el agente sugiere la especialidad en el hospital y, cruzando datos con su plan de seguro, le indica exactamente cuánto será su copago y qué hospital de la red le conviene más económicamente.</p>
+        </div>
+      </div>
+      <p class="footer-copyright">© 2026 Medi-Red</p>
+    </footer>
+
+    <script>
+      (function () {
+        var toggle = document.getElementById("navToggle");
+        var menu = document.getElementById("mobileMenu");
+        var closeBtn = document.getElementById("mobileMenuClose");
+        if (!toggle || !menu || !closeBtn) return;
+
+        function openMenu() {
+          menu.hidden = false;
+          toggle.setAttribute("aria-expanded", "true");
+          document.body.style.overflow = "hidden";
+          closeBtn.focus();
+        }
+        function closeMenu() {
+          menu.hidden = true;
+          toggle.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+          toggle.focus();
+        }
+
+        toggle.addEventListener("click", openMenu);
+        closeBtn.addEventListener("click", closeMenu);
+
+        menu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !menu.hidden) closeMenu();
+        });
+
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 640 && !menu.hidden) closeMenu();
+        });
+      })();
+    </script>
+  </body>
+</html>

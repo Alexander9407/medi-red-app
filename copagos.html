@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medi-Red — Planes de Copago</title>
+    <link rel="icon" href="./media/preview-1.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=Michroma&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-deep: #0e1713;
+        --bg-deep-2: #101c16;
+        --bg-light: #f6f8f6;
+        --bg-light-2: #eef2ef;
+        --green-600: #1f9d55;
+        --green-400: #4ecb90;
+        --red-600: #e0323f;
+        --red-500: #ef4a56;
+        --ink: #142019;
+        --paper: #eef4f1;
+        --muted-on-dark: #9fb6ac;
+        --muted-on-light: #516158;
+        --border-dark: rgba(255, 255, 255, 0.12);
+        --border-light: rgba(20, 32, 25, 0.12);
+        --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+        --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+        --slate-600: #4f6f93;
+        --slate-700: #3f5c7a;
+        --neutral-200: #dfe6ec;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg-light);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.6;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        margin: 0 0 0.6em 0;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--green-400);
+        outline-offset: 3px;
+      }
+      .section-inner {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Nav */
+      .nav {
+        background: var(--bg-light);
+        border-bottom: 1px solid var(--border-light);
+        width: 100%;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+      }
+      .nav-inner {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0.3rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .brand-mark {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        display: block;
+      }
+      .brand-mark-link {
+        display: block;
+        line-height: 0;
+        flex-shrink: 0;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+      }
+      .nav-link {
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--muted-on-light);
+        text-decoration: none;
+      }
+      .nav-link:hover {
+        color: var(--green-600);
+        text-decoration: underline;
+      }
+      .nav-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border: 1px solid var(--border-light);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        padding: 0;
+      }
+      .nav-toggle svg {
+        width: 20px;
+        height: 20px;
+      }
+      @media (max-width: 640px) {
+        .nav-actions {
+          display: none;
+        }
+        .nav-toggle {
+          display: inline-flex;
+        }
+      }
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: var(--bg-light);
+        display: flex;
+        flex-direction: column;
+      }
+      .mobile-menu[hidden] {
+        display: none;
+      }
+      .mobile-menu-header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 1.1rem 1.5rem;
+      }
+      .mobile-menu-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--border-light);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        padding: 0;
+      }
+      .mobile-menu-close svg {
+        width: 20px;
+        height: 20px;
+      }
+      .mobile-menu-links {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.75rem;
+        padding: 0 1.5rem 3rem;
+      }
+      .mobile-menu-links .nav-link {
+        font-size: 1.2rem;
+      }
+      .mobile-menu-links .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+      .logo {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: var(--green-600);
+        letter-spacing: 0.01em;
+      }
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+      .brand-tagline {
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.7rem;
+        color: var(--muted-on-light);
+        letter-spacing: 0.02em;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.85rem 1.7rem;
+        border-radius: 999px;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition:
+          background-color 0.15s ease,
+          border-color 0.15s ease,
+          color 0.15s ease;
+      }
+      .btn-primary {
+        background: var(--red-600);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--red-500);
+      }
+      .btn-ghost {
+        background: transparent;
+        border-color: var(--green-400);
+        color: var(--green-400);
+      }
+      .btn-sm {
+        padding: 0.55rem 1.3rem;
+        font-size: 0.92rem;
+      }
+
+      /* Page header (replaces the animated hero on inner pages) */
+      .page-head {
+        margin-top: 60px;
+        background: var(--bg-deep);
+        padding: clamp(2.75rem, 6vw, 4rem) 1.5rem 3rem;
+        text-align: center;
+      }
+      .page-head-eyebrow {
+        color: var(--green-400);
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 0.6rem;
+      }
+      .page-head h1 {
+        color: var(--paper);
+        font-size: clamp(1.8rem, 4.2vw, 2.6rem);
+        max-width: 640px;
+        margin: 0 auto 0.7rem;
+      }
+      .page-head p {
+        color: var(--muted-on-dark);
+        max-width: 560px;
+        margin: 0 auto;
+        font-size: 1.02rem;
+      }
+
+      /* ¿Qué es un copago? */
+      .definition {
+        background: var(--bg-light-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .definition h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .definition-body {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+      }
+      .definition-body p {
+        color: var(--muted-on-light);
+        font-size: 1.02rem;
+      }
+      .example-box {
+        border-left: 3px solid var(--green-600);
+        background: var(--bg-light);
+        border-radius: 0 10px 10px 0;
+        padding: 1.1rem 1.3rem;
+      }
+      .example-box p {
+        color: var(--ink);
+        font-size: 0.98rem;
+      }
+      .example-box strong {
+        color: var(--green-600);
+      }
+      .diff-heading {
+        margin-top: 0.6rem;
+        font-weight: 500;
+        color: var(--ink);
+        font-size: 1.02rem;
+      }
+      .diff-list {
+        list-style: none;
+        margin: 0.9rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+      .diff-list li {
+        display: flex;
+        gap: 0.9rem;
+        align-items: baseline;
+        padding-bottom: 0.9rem;
+        border-bottom: 1px solid var(--border-light);
+        font-size: 0.98rem;
+        color: var(--muted-on-light);
+      }
+      .diff-list li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .diff-term {
+        flex: none;
+        min-width: 92px;
+        font-family: var(--font-display);
+        font-weight: 600;
+        color: var(--green-600);
+      }
+
+      /* Tipos de seguro médico */
+      .insurance-types {
+        background: var(--bg-deep-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .insurance-types h2 {
+        color: var(--paper);
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .section-lead {
+        color: var(--muted-on-dark);
+        font-size: 1.02rem;
+        max-width: 620px;
+        margin-top: 0.6rem;
+      }
+      .type-block {
+        margin-top: 2.2rem;
+        padding-top: 2.2rem;
+        border-top: 1px solid var(--border-dark);
+      }
+      .type-block:first-of-type {
+        margin-top: 2.5rem;
+      }
+      .type-num {
+        display: inline-block;
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--green-400);
+        margin-bottom: 0.4rem;
+      }
+      .type-block h3 {
+        color: var(--paper);
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
+      }
+      .type-block > p {
+        color: var(--muted-on-dark);
+        font-size: 0.98rem;
+        max-width: 620px;
+      }
+      .type-sublist {
+        list-style: none;
+        margin: 1.3rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .type-sublist li {
+        color: var(--muted-on-dark);
+        font-size: 0.96rem;
+        max-width: 640px;
+      }
+      .type-sublist strong {
+        color: var(--paper);
+      }
+      .plan-table-wrap {
+        margin-top: 1.4rem;
+        overflow-x: auto;
+      }
+      table.plan-table {
+        width: 100%;
+        min-width: 480px;
+        border-collapse: collapse;
+        font-size: 0.94rem;
+      }
+      .plan-table thead th {
+        text-align: left;
+        color: var(--green-400);
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 0.9rem;
+        padding: 0 1.2rem 0.7rem 0;
+        border-bottom: 1px solid var(--border-dark);
+      }
+      .plan-table tbody td {
+        vertical-align: top;
+        padding: 1rem 1.2rem 1rem 0;
+        border-bottom: 1px solid var(--border-dark);
+        color: var(--muted-on-dark);
+      }
+      .plan-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .plan-table td:first-child {
+        color: var(--paper);
+        font-weight: 600;
+        width: 34%;
+      }
+
+      /* Tabla de copagos */
+      .copago-section {
+        background: var(--bg-light);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+        margin-bottom: 80px;
+      }
+      .copago-section h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .copago-section > .section-inner > p {
+        color: var(--muted-on-light);
+        margin-top: 0.6rem;
+        font-size: 1rem;
+        max-width: 620px;
+      }
+      .copago-table-wrap {
+        margin-top: 2rem;
+        overflow-x: auto;
+        border-radius: 14px;
+        border: 1px solid var(--border-light);
+      }
+      table.copago-table {
+        width: 100%;
+        min-width: 620px;
+        border-collapse: collapse;
+        font-size: 0.96rem;
+      }
+      .copago-table thead th {
+        background: var(--bg-deep);
+        color: var(--paper);
+        text-align: left;
+        font-family: var(--font-display);
+        font-weight: 500;
+        padding: 0.95rem 1.3rem;
+      }
+      .copago-table thead th.mg {
+        border-left: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      .copago-table tbody td {
+        padding: 0.85rem 1.3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      .copago-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .copago-table td:first-child {
+        font-weight: 500;
+      }
+      .row-public td {
+        background: var(--green-600);
+        color: #fff;
+      }
+      .row-private td {
+        background: var(--slate-600);
+        color: #fff;
+      }
+      .row-special td {
+        background: var(--neutral-200);
+        color: var(--ink);
+        border-bottom-color: rgba(20, 32, 25, 0.1);
+      }
+      .row-public td.mg,
+      .row-private td.mg {
+        border-left: 1px solid rgba(255, 255, 255, 0.25);
+      }
+      .row-special td.mg {
+        border-left: 1px solid rgba(20, 32, 25, 0.15);
+      }
+      .copago-legend {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.4rem;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-size: 0.92rem;
+        color: var(--muted-on-light);
+      }
+      .legend-swatch {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        flex: none;
+      }
+      .legend-swatch.pub {
+        background: var(--green-600);
+      }
+      .legend-swatch.priv {
+        background: var(--slate-600);
+      }
+      .legend-swatch.spec {
+        background: var(--neutral-200);
+        border: 1px solid var(--border-light);
+      }
+      .copago-note {
+        margin-top: 1.5rem;
+        color: var(--muted-on-light);
+        font-size: 0.88rem;
+        max-width: 560px;
+      }
+
+      /* Footer */
+      .site-footer {
+        background: var(--bg-deep);
+      }
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+      }
+      .footer-copyright {
+        max-width: 1040px;
+        margin: 0 auto;
+        margin-top: 100px;
+        padding: 1rem 1.5rem 1.5rem;
+        border-top: 1px solid var(--border-dark);
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--muted-on-dark);
+      }
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: none;
+      }
+      .footer-brand-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .footer-brand svg {
+        width: 70px;
+        height: 70px;
+        padding: 0;
+      }
+      p.credit-label {
+        margin: 0 0 0.35rem;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--green-400);
+      }
+      .team-name {
+        display: block;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.6em;
+        text-transform: uppercase;
+        color: #806ee9;
+      }
+      .footer-challenge {
+        flex: 1;
+        min-width: 240px;
+        border-left: 1px solid var(--border-dark);
+        padding-left: 2rem;
+      }
+      @media (max-width: 640px) {
+        .footer-challenge {
+          border-left: none;
+          padding-left: 0;
+          border-top: 1px solid var(--border-dark);
+          padding-top: 1.5rem;
+          width: 100%;
+        }
+        .footer-brand svg {
+          width: 60px;
+          height: 60px;
+        }
+      }
+      .challenge-tag {
+        margin: 0 0 0.35rem;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--green-400);
+      }
+      .challenge-title {
+        margin: 0 0 0.5rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--paper);
+      }
+      .challenge-desc {
+        margin: 0;
+        max-width: 560px;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--muted-on-dark);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-inner">
+        <div class="brand">
+          <a class="brand-mark-link" href="landing.html" aria-label="Ir al inicio">
+            <img class="brand-mark" src="./media/preview-1.svg" alt="" width="56" height="56" />
+          </a>
+          <div class="brand-text">
+            <span class="logo">MEDI-RED</span>
+            <span class="brand-tagline">Agente virtual</span>
+          </div>
+        </div>
+        <div class="nav-actions">
+          <a class="nav-link" href="diseño.html">¿Cómo funciono?</a>
+          <a class="btn btn-primary btn-sm" href="index.html">Ir al asistente</a>
+        </div>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <div class="mobile-menu-header">
+        <button type="button" class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+      <div class="mobile-menu-links">
+        <a class="nav-link" href="diseño.html">¿Cómo funciono?</a>
+        <a class="btn btn-primary" href="index.html">Ir al asistente</a>
+      </div>
+    </div>
+
+    <section class="page-head">
+      <p class="page-head-eyebrow">Copagos</p>
+      <h1>Planes de copago</h1>
+      <p>Entiende qué es un copago y cuánto pagarás según tu tipo de seguro.</p>
+    </section>
+
+    <section class="definition" id="que-es-un-copago">
+      <div class="section-inner">
+        <h2>¿Qué es un copago?</h2>
+        <div class="definition-body">
+          <p>Un copago es una cantidad de dinero fija que pagas de tu propio bolsillo cada vez que utilizas un servicio médico específico cubierto por tu póliza, como una consulta, un examen de laboratorio o una visita a urgencias.</p>
+          <p>Pagas esta cuota directamente en la clínica u hospital al momento de recibir la atención, y tu aseguradora se encarga de pagar el resto del costo total del servicio.</p>
+          <div class="example-box">
+            <p><strong>Ejemplo práctico:</strong> Si la consulta con un médico especialista cuesta $60, pero tu plan de salud establece un copago de $15 para consultas, tú solo pagas esos $15 en la recepción. La aseguradora le paga los $45 restantes a la clínica.</p>
+          </div>
+          <p>El monto del copago varía según el servicio. Por lo general, los copagos para consultas generales son más bajos, mientras que los copagos para especialistas o cuartos de urgencia son más altos.</p>
+          <p class="diff-heading">Diferencia clave con otros términos médicos:</p>
+          <ul class="diff-list">
+            <li><span class="diff-term">Copago</span><span>Es un monto fijo (ej. $15 por consulta) que se paga por servicios rutinarios o de bajo costo.</span></li>
+            <li><span class="diff-term">Coaseguro</span><span>Es un porcentaje (ej. pagas el 20% y el seguro el 80%) que se suele aplicar a procedimientos más caros, como cirugías.</span></li>
+            <li><span class="diff-term">Deducible</span><span>Es un monto acumulado anual (ej. $500) que debes pagar de tu bolsillo antes de que el seguro comience a cubrir gastos mayores, como una hospitalización.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="insurance-types" id="tipos-de-seguro">
+      <div class="section-inner">
+        <h2>Tipos de seguro médico</h2>
+        <p class="section-lead">Existen tres grandes categorías de seguros, y de eso depende tu copago y cómo te atienden en el hospital.</p>
+
+        <div class="type-block">
+          <span class="type-num">1</span>
+          <h3>Seguros Públicos o del Gobierno</h3>
+          <p>Son financiados por el Estado y cubren a sectores específicos de la población, como personas de bajos recursos, adultos mayores o trabajadores formales:</p>
+          <ul class="type-sublist">
+            <li><strong>Seguridad Social Básica:</strong> dependiendo del país, son las instituciones estatales obligatorias para trabajadores (por ejemplo, la Caja de Seguro Social en Panamá, el IMSS en México o los sistemas de salud pública europeos).</li>
+            <li><strong>Programas de Asistencia Social:</strong> planes para personas vulnerables o sin empleo formal que ofrecen cobertura gratuita o de muy bajo costo en la red de hospitales públicos.</li>
+          </ul>
+        </div>
+
+        <div class="type-block">
+          <span class="type-num">2</span>
+          <h3>Seguros Privados y Comerciales</h3>
+          <p>Son pólizas contratadas directamente por individuos o proporcionadas por empresas como beneficio laboral. Se dividen según su estructura de red:</p>
+          <div class="plan-table-wrap">
+            <table class="plan-table">
+              <thead>
+                <tr>
+                  <th scope="col">Tipo de plan privado</th>
+                  <th scope="col">¿Cómo funciona en el hospital?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>HMO (Organización de Mantenimiento de la Salud)</td>
+                  <td>El hospital debe pertenecer a la red cerrada del seguro. Salvo emergencias estrictas, el paciente necesita una remisión para que se cubra la atención.</td>
+                </tr>
+                <tr>
+                  <td>PPO (Organización de Proveedores Preferenciales)</td>
+                  <td>Ofrece mayor flexibilidad. Si el hospital está "dentro de la red", el paciente paga menos; si está "fuera de la red", el seguro cubre una parte menor de la factura.</td>
+                </tr>
+                <tr>
+                  <td>POS (Planes de Punto de Servicio)</td>
+                  <td>Una mezcla de los dos anteriores. El paciente puede acudir al hospital fuera de la red, pero requiere la remisión de su médico de cabecera para reducir costos.</td>
+                </tr>
+                <tr>
+                  <td>Plan de Indemnización (Reembolso)</td>
+                  <td>El paciente paga la totalidad de los servicios del hospital y luego la aseguradora le reembolsa un porcentaje fijado en el contrato. Permite ir a cualquier hospital.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="type-block">
+          <span class="type-num">3</span>
+          <h3>Seguros Especializados y de Accidentes</h3>
+          <p>Cubren facturas hospitalarias derivadas de situaciones muy específicas:</p>
+          <ul class="type-sublist">
+            <li><strong>Seguro de Accidentes de Tránsito:</strong> pólizas obligatorias (como el SOAT en algunos países) que cubren la atención médica hospitalaria inmediata tras un choque vehicular.</li>
+            <li><strong>Seguro de Riesgos Profesionales o Accidentes Laborales:</strong> administrado por el gobierno o aseguradoras privadas, cubre la hospitalización por lesiones ocurridas en el lugar de trabajo.</li>
+            <li><strong>Seguros de Gastos Médicos Mayores:</strong> diseñados exclusivamente para intervenciones de alta complejidad, cirugías costosas o estancias prolongadas en cuidados intensivos.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="copago-section" id="tabla-de-copagos">
+      <div class="section-inner">
+        <h2>Copago según tu tipo de seguro</h2>
+        <p>Este es el monto de referencia que pagarías por consulta según el tipo de seguro que tengas, separado entre consulta de especialidad y consulta de medicina general.</p>
+        <div class="copago-table-wrap">
+          <table class="copago-table">
+            <thead>
+              <tr>
+                <th scope="col">Tipo de seguro</th>
+                <th scope="col">Copago especialidad</th>
+                <th scope="col" class="mg">Copago medicina general</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-public">
+                <td>Seguro Social</td>
+                <td>$5.00</td>
+                <td class="mg">$3.00</td>
+              </tr>
+              <tr class="row-public">
+                <td>Programa de asistencia social</td>
+                <td>$5.00</td>
+                <td class="mg">$3.00</td>
+              </tr>
+              <tr class="row-private">
+                <td>HMO (Organización de Mantenimiento de la Salud)</td>
+                <td>$8.00</td>
+                <td class="mg">$4.00</td>
+              </tr>
+              <tr class="row-private">
+                <td>PPO (Organización de Proveedores Preferenciales)</td>
+                <td>$10.00</td>
+                <td class="mg">$5.00</td>
+              </tr>
+              <tr class="row-private">
+                <td>POS (Planes de Punto de Servicio)</td>
+                <td>$10.00</td>
+                <td class="mg">$5.00</td>
+              </tr>
+              <tr class="row-private">
+                <td>Plan de Indemnización (Reembolso)</td>
+                <td>20%</td>
+                <td class="mg">10%</td>
+              </tr>
+              <tr class="row-special">
+                <td>Seguro de accidente de tránsito</td>
+                <td>$0.00</td>
+                <td class="mg">$0.00</td>
+              </tr>
+              <tr class="row-special">
+                <td>Seguro de accidente o riesgo laboral</td>
+                <td>$0.00</td>
+                <td class="mg">$0.00</td>
+              </tr>
+              <tr class="row-special">
+                <td>Seguro de gastos médicos mayores</td>
+                <td>Límite de cobertura: $500,000</td>
+                <td class="mg">Límite de cobertura: $500,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="copago-legend">
+          <span class="legend-item"><span class="legend-swatch pub"></span>Seguro Público</span>
+          <span class="legend-item"><span class="legend-swatch priv"></span>Seguro Privado</span>
+          <span class="legend-item"><span class="legend-swatch spec"></span>Seguro especializado y accidentes</span>
+        </div>
+        <p class="copago-note">Los montos son referenciales y pueden variar según tu póliza específica y el hospital de la red que elijas.</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="credit-label">Desarrollado por:</p>
+          <div class="footer-brand-row">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="23 23 54 56" aria-hidden="true">
+              <defs>
+                <linearGradient id="footerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00E676" />
+                  <stop offset="100%" stop-color="#705AE8" />
+                </linearGradient>
+              </defs>
+              <path d="M 25 77 L 25 25 L 75 25 L 75 75 L 45 75 L 45 40" fill="none" stroke="url(#footerGradient)" stroke-width="4" stroke-linejoin="miter" stroke-linecap="butt" />
+            </svg>
+            <p class="footer-credit">
+              <span class="team-name">Los <br />Legendarios <br />PTY</span>
+            </p>
+          </div>
+        </div>
+        <div class="footer-challenge">
+          <p class="challenge-tag">Sistema aplicado al "Reto 3"</p>
+          <p class="challenge-title">Estimador Agéntico de Copago y Cobertura para el Paciente</p>
+          <p class="challenge-desc">Un agente conversacional que ayude al paciente a entender su beneficio antes de atenderse. El paciente ingresa su síntoma, el agente sugiere la especialidad en el hospital y, cruzando datos con su plan de seguro, le indica exactamente cuánto será su copago y qué hospital de la red le conviene más económicamente.</p>
+        </div>
+      </div>
+      <p class="footer-copyright">© 2026 Medi-Red</p>
+    </footer>
+
+    <script>
+      (function () {
+        var toggle = document.getElementById("navToggle");
+        var menu = document.getElementById("mobileMenu");
+        var closeBtn = document.getElementById("mobileMenuClose");
+        if (!toggle || !menu || !closeBtn) return;
+
+        function openMenu() {
+          menu.hidden = false;
+          toggle.setAttribute("aria-expanded", "true");
+          document.body.style.overflow = "hidden";
+          closeBtn.focus();
+        }
+        function closeMenu() {
+          menu.hidden = true;
+          toggle.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+          toggle.focus();
+        }
+
+        toggle.addEventListener("click", openMenu);
+        closeBtn.addEventListener("click", closeMenu);
+
+        menu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !menu.hidden) closeMenu();
+        });
+
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 640 && !menu.hidden) closeMenu();
+        });
+      })();
+    </script>
+  </body>
+</html>

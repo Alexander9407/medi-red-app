@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medi-Red — Web</title>
+    <link rel="icon" href="./media/preview-1.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=Michroma&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-deep: #0e1713;
+        --bg-deep-2: #101c16;
+        --bg-light: #f6f8f6;
+        --bg-light-2: #eef2ef;
+        --green-600: #1f9d55;
+        --green-400: #4ecb90;
+        --red-600: #e0323f;
+        --red-500: #ef4a56;
+        --ink: #142019;
+        --paper: #eef4f1;
+        --muted-on-dark: #9fb6ac;
+        --muted-on-light: #516158;
+        --border-dark: rgba(255, 255, 255, 0.12);
+        --border-light: rgba(20, 32, 25, 0.12);
+        --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+        --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg-light);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.6;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        margin: 0 0 0.6em 0;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--green-400);
+        outline-offset: 3px;
+      }
+      .section-inner {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Nav */
+      .nav {
+        background: var(--bg-light);
+        border-bottom: 1px solid var(--border-light);
+        width: 100%;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+      }
+      .nav-inner {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0.3rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .brand-mark {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        display: block;
+      }
+      .brand-mark-link {
+        display: block;
+        line-height: 0;
+        flex-shrink: 0;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+      }
+      .nav-link {
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--muted-on-light);
+        text-decoration: none;
+      }
+      .nav-link:hover {
+        color: var(--green-600);
+        text-decoration: underline;
+      }
+      .nav-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border: 1px solid var(--border-light);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        padding: 0;
+      }
+      .nav-toggle svg {
+        width: 20px;
+        height: 20px;
+      }
+      @media (max-width: 640px) {
+        .nav-actions {
+          display: none;
+        }
+        .nav-toggle {
+          display: inline-flex;
+        }
+      }
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: var(--bg-light);
+        display: flex;
+        flex-direction: column;
+      }
+      .mobile-menu[hidden] {
+        display: none;
+      }
+      .mobile-menu-header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 1.1rem 1.5rem;
+      }
+      .mobile-menu-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--border-light);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        padding: 0;
+      }
+      .mobile-menu-close svg {
+        width: 20px;
+        height: 20px;
+      }
+      .mobile-menu-links {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.75rem;
+        padding: 0 1.5rem 3rem;
+      }
+      .mobile-menu-links .nav-link {
+        font-size: 1.2rem;
+      }
+      .mobile-menu-links .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+      .logo {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: var(--green-600);
+        letter-spacing: 0.01em;
+      }
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+      .brand-tagline {
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.7rem;
+        color: var(--muted-on-light);
+        letter-spacing: 0.02em;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.85rem 1.7rem;
+        border-radius: 999px;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition:
+          background-color 0.15s ease,
+          border-color 0.15s ease,
+          color 0.15s ease;
+      }
+      .btn-primary {
+        background: var(--red-600);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--red-500);
+      }
+      .btn-ghost {
+        background: transparent;
+        border-color: var(--green-400);
+        color: var(--green-400);
+      }
+      .btn-sm {
+        padding: 0.55rem 1.3rem;
+        font-size: 0.92rem;
+      }
+
+      /* Hero */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        margin-top: 60px;
+        background: var(--bg-deep);
+        padding: clamp(3rem, 7vw, 5rem) 1.5rem clamp(3.5rem, 8vw, 6rem);
+        text-align: center;
+      }
+      .dot-field {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .dot {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--green-400);
+        opacity: 0;
+        animation-name: dot-twinkle;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+      }
+      @keyframes dot-twinkle {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .dot {
+          animation: none;
+          opacity: 0.16;
+        }
+        .hero {
+          margin-top: 60px;
+        }
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .icon-halo {
+        position: relative;
+        width: clamp(240px, 30vw, 280px);
+        height: clamp(240px, 30vw, 280px);
+        margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ring {
+        margin-top: 80px;
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(78, 203, 144, 0.35);
+      }
+      .ring-1 {
+        width: 150%;
+        height: 150%;
+      }
+      .ring-2 {
+        width: 120%;
+        height: 120%;
+        border-color: rgba(78, 203, 144, 0.55);
+      }
+      .hero-icon {
+        margin-top: 80px;
+        position: relative;
+        z-index: 1;
+        width: 144%;
+        height: 144%;
+        animation:
+          pop-in 0.7s ease-out both,
+          icon-sway 5.5s ease-in-out infinite;
+        color: var(--green-400);
+      }
+      @keyframes pop-in {
+        from {
+          opacity: 0;
+          scale: 0.85;
+        }
+        to {
+          opacity: 1;
+          scale: 1;
+        }
+      }
+      @keyframes icon-sway {
+        0%,
+        10% {
+          translate: 0;
+        }
+        22%,
+        32% {
+          translate: -4px;
+        }
+        44%,
+        54% {
+          translate: 0;
+        }
+        66%,
+        76% {
+          translate: 4px;
+        }
+        88%,
+        100% {
+          translate: 0;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-icon {
+          animation: none;
+        }
+      }
+      .eye {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation:
+          eye-look 5.5s ease-in-out infinite,
+          eye-blink 5.5s ease-in-out infinite;
+      }
+      @keyframes eye-look {
+        0%,
+        10% {
+          translate: 0;
+        }
+        22%,
+        32% {
+          translate: -2px;
+        }
+        44%,
+        54% {
+          translate: 0;
+        }
+        66%,
+        76% {
+          translate: 2px;
+        }
+        88%,
+        100% {
+          translate: 0;
+        }
+      }
+      @keyframes eye-blink {
+        0%,
+        4%,
+        6%,
+        43%,
+        48%,
+        50%,
+        87%,
+        93%,
+        95%,
+        100% {
+          scale: 1 1;
+        }
+        5%,
+        49%,
+        94% {
+          scale: 1 0.1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .eye {
+          animation: none;
+        }
+      }
+      .hero h1 {
+        margin-top: 140px;
+        color: var(--paper);
+        font-size: clamp(0.85rem, calc((100vw - 3rem) / 22), 2.6rem);
+        line-height: 1.25;
+      }
+      .typewriter-box {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        vertical-align: bottom;
+      }
+      .typewriter-ghost {
+        visibility: hidden;
+        white-space: nowrap;
+        display: block;
+      }
+      .typewriter-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+        max-width: 100%;
+        border-right: 0.08em solid var(--green-400);
+        animation:
+          typing 2.6s steps(39, end) 0.7s forwards,
+          caret-blink 0.8s step-end infinite;
+      }
+      @keyframes typing {
+        to {
+          width: 100%;
+        }
+      }
+      @keyframes caret-blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .typewriter-text {
+          animation: none;
+          width: 100%;
+          border-right: none;
+        }
+      }
+
+      .virtual {
+        background: var(--bg-light-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+        min-height: 60vh;
+      }
+      .hero-sub {
+        color: var(--muted-on-light);
+        font-size: 1.05rem;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        margin-top: 60px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 0.9rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        margin-top: 60px;
+      }
+
+      /* Navegación desde cualquier dispositivo */
+      .showcase {
+        background: var(--bg-light-2);
+        text-align: center;
+      }
+      .showcase h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      .showcase-img {
+        display: block;
+        width: min(960px, 100%);
+        max-width: 100%;
+        height: auto;
+        margin: 2.5rem auto 0;
+      }
+
+      /* Cómo funciona */
+      .how {
+        background: var(--bg-light-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .how h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .steps {
+        list-style: none;
+        margin: 2rem 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem 1.75rem;
+      }
+      @media (max-width: 680px) {
+        .steps {
+          grid-template-columns: 1fr;
+        }
+        .hero-inner{
+          margin-top: 60px;
+        }
+      }
+      .step-num {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--green-600);
+        margin-bottom: 0.5rem;
+      }
+      .steps h3 {
+        font-size: 1.05rem;
+        margin-bottom: 0.35rem;
+      }
+      .steps p {
+        color: var(--muted-on-light);
+        font-size: 0.96rem;
+      }
+
+      /* Por qué */
+      .why {
+        background: var(--bg-deep-2);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+      }
+      .why h2 {
+        color: var(--paper);
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .benefit-list {
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--border-dark);
+      }
+      .benefit-row {
+        display: flex;
+        gap: 1.1rem;
+        align-items: flex-start;
+        padding: 1.4rem 0;
+        border-bottom: 1px solid var(--border-dark);
+      }
+      .benefit-row svg {
+        flex: none;
+        width: 26px;
+        height: 26px;
+        color: var(--green-400);
+        margin-top: 0.15rem;
+      }
+      .benefit-row h3 {
+        color: var(--paper);
+        font-size: 1.02rem;
+        margin-bottom: 0.3rem;
+      }
+      .benefit-row p {
+        color: var(--muted-on-dark);
+        font-size: 0.96rem;
+      }
+
+      /* CTA final */
+      .cta {
+        background: var(--bg-light);
+        padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+        text-align: center;
+        margin-bottom: 80px;
+      }
+      .cta h2 {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+      }
+      .cta .btn {
+        margin-top: 1.2rem;
+      }
+      .disclaimer {
+        max-width: 480px;
+        margin: 1.5rem auto 0;
+        color: var(--muted-on-light);
+        font-size: 0.88rem;
+      }
+
+      /* Footer */
+      .site-footer {
+        background: var(--bg-deep);
+      }
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+      }
+      .footer-copyright {
+        max-width: 1040px;
+        margin: 0 auto;
+        margin-top: 100px;
+        padding: 1rem 1.5rem 1.5rem;
+        border-top: 1px solid var(--border-dark);
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--muted-on-dark);
+      }
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: none;
+      }
+      .footer-brand-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .footer-brand svg {
+        width: 70px;
+        height: 70px;
+        padding: 0;
+      }
+      p.credit-label {
+        margin: 0 0 0.35rem;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--green-400);
+      }
+      .team-name {
+        display: block;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.6em;
+        text-transform: uppercase;
+        color: #806ee9;
+      }
+      .footer-challenge {
+        flex: 1;
+        min-width: 240px;
+        border-left: 1px solid var(--border-dark);
+        padding-left: 2rem;
+      }
+      @media (max-width: 640px) {
+        .footer-challenge {
+          border-left: none;
+          padding-left: 0;
+          border-top: 1px solid var(--border-dark);
+          padding-top: 1.5rem;
+          width: 100%;
+        }
+        .footer-brand svg {
+          width: 60px;
+          height: 60px;
+        }
+      }
+      .challenge-tag {
+        margin: 0 0 0.35rem;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--green-400);
+      }
+      .challenge-title {
+        margin: 0 0 0.5rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--paper);
+      }
+      .challenge-desc {
+        margin: 0;
+        max-width: 560px;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--muted-on-dark);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-inner">
+        <div class="brand">
+          <a class="brand-mark-link" href="landing.html" aria-label="Ir al inicio">
+            <img class="brand-mark" src="./media/preview-1.svg" alt="" width="56" height="56" />
+          </a>
+          <div class="brand-text">
+            <span class="logo">MEDI-RED</span>
+            <span class="brand-tagline">Agente virtual</span>
+          </div>
+        </div>
+        <div class="nav-actions">
+          <a class="nav-link" href="diseño.html">¿Cómo funciono?</a>
+          <a class="btn btn-primary btn-sm" href="index.html">Ir al asistente</a>
+        </div>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <div class="mobile-menu-header">
+        <button type="button" class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+      <div class="mobile-menu-links">
+        <a class="nav-link" href="diseño.html">¿Cómo funciono?</a>
+        <a class="btn btn-primary" href="index.html">Ir al asistente</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="dot-field" aria-hidden="true">
+        <span class="dot" style="top: 6%; left: 12%; width: 8px; height: 8px; animation-duration: 4.3s; animation-delay: 0.2s"></span>
+        <span class="dot" style="top: 14%; left: 78%; width: 8px; height: 8px; animation-duration: 5.6s; animation-delay: 1.1s"></span>
+        <span class="dot" style="top: 22%; left: 34%; width: 8px; height: 8px; animation-duration: 3.8s; animation-delay: 2.4s"></span>
+        <span class="dot" style="top: 9%; left: 55%; width: 8px; height: 8px; animation-duration: 4.9s; animation-delay: 0.6s"></span>
+        <span class="dot" style="top: 31%; left: 90%; width: 8px; height: 8px; animation-duration: 6.1s; animation-delay: 3.3s"></span>
+        <span class="dot" style="top: 18%; left: 6%; width: 8px; height: 8px; animation-duration: 4.1s; animation-delay: 1.8s"></span>
+        <span class="dot" style="top: 27%; left: 63%; width: 8px; height: 8px; animation-duration: 5.2s; animation-delay: 0.4s"></span>
+        <span class="dot" style="top: 4%; left: 40%; width: 8px; height: 8px; animation-duration: 3.6s; animation-delay: 2.9s"></span>
+        <span class="dot" style="top: 38%; left: 17%; width: 8px; height: 8px; animation-duration: 4.7s; animation-delay: 1.4s"></span>
+        <span class="dot" style="top: 12%; left: 96%; width: 8px; height: 8px; animation-duration: 5.9s; animation-delay: 0.1s"></span>
+        <span class="dot" style="top: 45%; left: 8%; width: 8px; height: 8px; animation-duration: 4.4s; animation-delay: 3.7s"></span>
+        <span class="dot" style="top: 52%; left: 71%; width: 8px; height: 8px; animation-duration: 6.4s; animation-delay: 0.9s"></span>
+        <span class="dot" style="top: 60%; left: 25%; width: 8px; height: 8px; animation-duration: 3.9s; animation-delay: 2.1s"></span>
+        <span class="dot" style="top: 48%; left: 45%; width: 8px; height: 8px; animation-duration: 5.3s; animation-delay: 1.6s"></span>
+        <span class="dot" style="top: 66%; left: 92%; width: 8px; height: 8px; animation-duration: 4.6s; animation-delay: 0.3s"></span>
+        <span class="dot" style="top: 35%; left: 82%; width: 8px; height: 8px; animation-duration: 5.8s; animation-delay: 2.6s"></span>
+        <span class="dot" style="top: 72%; left: 14%; width: 8px; height: 8px; animation-duration: 4s; animation-delay: 1.2s"></span>
+        <span class="dot" style="top: 58%; left: 58%; width: 8px; height: 8px; animation-duration: 6s; animation-delay: 0.7s"></span>
+        <span class="dot" style="top: 80%; left: 38%; width: 8px; height: 8px; animation-duration: 4.8s; animation-delay: 3.1s"></span>
+        <span class="dot" style="top: 25%; left: 48%; width: 8px; height: 8px; animation-duration: 3.7s; animation-delay: 1.9s"></span>
+        <span class="dot" style="top: 88%; left: 68%; width: 8px; height: 8px; animation-duration: 5.4s; animation-delay: 0.5s"></span>
+        <span class="dot" style="top: 70%; left: 5%; width: 8px; height: 8px; animation-duration: 4.2s; animation-delay: 2.7s"></span>
+        <span class="dot" style="top: 15%; left: 25%; width: 8px; height: 8px; animation-duration: 5.7s; animation-delay: 1s"></span>
+        <span class="dot" style="top: 92%; left: 20%; width: 8px; height: 8px; animation-duration: 4.5s; animation-delay: 3.4s"></span>
+        <span class="dot" style="top: 40%; left: 96%; width: 8px; height: 8px; animation-duration: 6.2s; animation-delay: 0.8s"></span>
+        <span class="dot" style="top: 84%; left: 80%; width: 8px; height: 8px; animation-duration: 3.9s; animation-delay: 2.2s"></span>
+        <span class="dot" style="top: 56%; left: 4%; width: 8px; height: 8px; animation-duration: 5.1s; animation-delay: 1.5s"></span>
+        <span class="dot" style="top: 8%; left: 68%; width: 8px; height: 8px; animation-duration: 4.7s; animation-delay: 3s"></span>
+        <span class="dot" style="top: 64%; left: 45%; width: 8px; height: 8px; animation-duration: 5.9s; animation-delay: 0.4s"></span>
+        <span class="dot" style="top: 76%; left: 55%; width: 8px; height: 8px; animation-duration: 4.3s; animation-delay: 2.5s"></span>
+        <span class="dot" style="top: 20%; left: 88%; width: 8px; height: 8px; animation-duration: 6.3s; animation-delay: 1.3s"></span>
+        <span class="dot" style="top: 95%; left: 50%; width: 8px; height: 8px; animation-duration: 3.8s; animation-delay: 0.6s"></span>
+        <span class="dot" style="top: 3%; left: 82%; width: 8px; height: 8px; animation-duration: 5s; animation-delay: 2.8s"></span>
+        <span class="dot" style="top: 50%; left: 30%; width: 8px; height: 8px; animation-duration: 4.9s; animation-delay: 1.7s"></span>
+        <span class="dot" style="top: 78%; left: 22%; width: 8px; height: 8px; animation-duration: 5.5s; animation-delay: 0.9s"></span>
+        <span class="dot" style="top: 33%; left: 5%; width: 8px; height: 8px; animation-duration: 4.4s; animation-delay: 2s"></span>
+      </div>
+      <div class="hero-inner">
+        <div class="icon-halo">
+          <span class="ring ring-1"></span>
+          <span class="ring ring-2"></span>
+          <svg class="hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4.5" y="0.5" width="15" height="5.5" rx="1" stroke-width="1" />
+            <path d="M12 2.0v2.5M10.6 3.2h2.8" stroke-width="0.9" />
+            <path d="M6 7.5 L18 7.5 A2.5 2.5 0 0 1 20.5 10 L20.5 19 A2.5 2.5 0 0 1 18 21.5 L13.5 21.5 L12 23.5 L10.5 21.5 L6 21.5 A2.5 2.5 0 0 1 3.5 19 L3.5 10 A2.5 2.5 0 0 1 6 7.5 Z" stroke-width="1" />
+            <path class="eye" d="M9 11.8v3.4" stroke-width="1" />
+            <path class="eye" d="M15 11.8v3.4" stroke-width="1" />
+          </svg>
+        </div>
+        <h1>
+          <span class="typewriter-box"><span class="typewriter-ghost" aria-hidden="true">Hola, soy el agente virtual Medi-Red</span><span class="typewriter-text">Hola, soy el agente virtual Medi-Red</span></span>
+        </h1>
+      </div>
+    </section>
+
+    <section class="virtual">
+      <p class="hero-sub">Cuéntale qué te molesta y te dice qué especialidad necesitas, cuánto pagarás de copago y en qué hospital de tu red conviene más — por cercanía y por costo.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="index.html">Hablar con el asistente</a>
+        <a class="btn btn-ghost" href="diseño.html">Ver cómo funciona</a>
+      </div>
+    </section>
+
+    <section class="showcase">
+      <div class="section-inner">
+        <h2>Navegación cómoda desde cualquier dispositivo</h2>
+        <img class="showcase-img" src="./media/device-shot.svg" alt="Captura de Medi-Red en un teléfono móvil" width="520" height="390" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="how" id="como-funciona">
+      <div class="section-inner">
+        <h2>Necesitas ayuda</h2>
+        <ol class="steps">
+          <li>
+            <span class="step-num">1</span>
+            <h3>Cuéntanos qué te sientes</h3>
+            <p>Describe tu síntoma con tus propias palabras, sin formularios largos ni preguntas de más.</p>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <h3>Identificamos tu especialidad</h3>
+            <p>Cruzamos lo que nos cuentas con tu plan para saber a quién deberías consultar.</p>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <h3>Te mostramos tu mejor opción</h3>
+            <p>Un hospital de tu red, cerca de ti y al mejor costo, con tu copago estimado desde antes de llegar.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="why">
+      <div class="section-inner">
+        <h2>Por qué usar Medi-Red</h2>
+        <div class="benefit-list">
+          <div class="benefit-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M12 7.5V12l3 2" />
+            </svg>
+            <div>
+              <h3>Ahorra tiempo</h3>
+              <p>Sin llamadas ni esperas: respuestas en segundos, cuando las necesitas.</p>
+            </div>
+          </div>
+          <div class="benefit-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="8" rx="7" ry="3" />
+              <path d="M5 8v5c0 1.7 3.1 3 7 3s7-1.3 7-3V8" />
+              <path d="M5 13v3c0 1.7 3.1 3 7 3s7-1.3 7-3v-3" />
+            </svg>
+            <div>
+              <h3>Copago claro desde el inicio</h3>
+              <p>Sabes cuánto vas a pagar antes de pisar el hospital.</p>
+            </div>
+          </div>
+          <div class="benefit-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
+              <circle cx="12" cy="10" r="2.4" />
+            </svg>
+            <div>
+              <h3>Toda tu red, en un solo lugar</h3>
+              <p>Hospitales cercanos a tu ubicación, filtrados según tu plan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="section-inner">
+        <h2>¿Desconoces los planes de copagos?</h2>
+        <a class="btn btn-primary" href="copagos.html">Ver planes de copagos</a>
+        <p class="disclaimer">Medi-Red ofrece un estimado informativo según el plan. No sustituye una evaluación médica ni la verificación final del hospital.</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="credit-label">Desarrollado por:</p>
+          <div class="footer-brand-row">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="23 23 54 56" aria-hidden="true">
+              <defs>
+                <linearGradient id="footerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00E676" />
+                  <stop offset="100%" stop-color="#705AE8" />
+                </linearGradient>
+              </defs>
+              <path d="M 25 77 L 25 25 L 75 25 L 75 75 L 45 75 L 45 40" fill="none" stroke="url(#footerGradient)" stroke-width="4" stroke-linejoin="miter" stroke-linecap="butt" />
+            </svg>
+            <p class="footer-credit">
+              <span class="team-name">Los <br />Legendarios <br />PTY</span>
+            </p>
+          </div>
+        </div>
+        <div class="footer-challenge">
+          <p class="challenge-tag">Sistema aplicado al "Reto 3"</p>
+          <p class="challenge-title">Estimador Agéntico de Copago y Cobertura para el Paciente</p>
+          <p class="challenge-desc">Un agente conversacional que ayude al paciente a entender su beneficio antes de atenderse. El paciente ingresa su síntoma, el agente sugiere la especialidad en el hospital y, cruzando datos con su plan de seguro, le indica exactamente cuánto será su copago y qué hospital de la red le conviene más económicamente.</p>
+        </div>
+      </div>
+      <p class="footer-copyright">© 2026 Medi-Red</p>
+    </footer>
+
+    <script>
+      (function () {
+        var toggle = document.getElementById("navToggle");
+        var menu = document.getElementById("mobileMenu");
+        var closeBtn = document.getElementById("mobileMenuClose");
+        if (!toggle || !menu || !closeBtn) return;
+
+        function openMenu() {
+          menu.hidden = false;
+          toggle.setAttribute("aria-expanded", "true");
+          document.body.style.overflow = "hidden";
+          closeBtn.focus();
+        }
+        function closeMenu() {
+          menu.hidden = true;
+          toggle.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+          toggle.focus();
+        }
+
+        toggle.addEventListener("click", openMenu);
+        closeBtn.addEventListener("click", closeMenu);
+
+        menu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !menu.hidden) closeMenu();
+        });
+
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 640 && !menu.hidden) closeMenu();
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -107,7 +107,7 @@
     { id:"ginecologia", nombre:"Ginecología", keywords:["dolor menstrual","control ginecológico","embarazo","dolor pélvico"] },
     { id:"oftalmologia", nombre:"Oftalmología", keywords:["ojo rojo","visión borrosa","dolor de ojo","dolor en el ojo","dolor en los ojos","detrás del ojo","parte trasera del ojo","atrás del ojo","picazón en los ojos","molestia en el ojo","molestia en los ojos","ardor en el ojo","presión en el ojo"] },
     { id:"otorrino", nombre:"Otorrinolaringología", keywords:["dolor de oído","zumbido","sinusitis","congestión nasal","dolor de oidos"] },
-    { id:"odontologia", nombre:"Odontología", keywords:["dolor de muela","diente","encía","boca","mandíbula", "lengua"] },
+    { id:"odontologia", nombre:"Odontología", keywords:["dolor de muela","diente","encía","boca","mandíbula","lengua"] },
   ];
 
   // Ubicaciones cubiertas por la red (distritos de Coclé) y hospital de referencia en cada una.
